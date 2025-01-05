@@ -12,15 +12,15 @@ import (
 func PromptForPassword(promptMessage string, mask rune) (string, error) {
 	fmt.Print(promptMessage)
 
-	fileDescriptor := int(os.Stdin.Fd())
-	termState, err := term.GetState(fileDescriptor)
+	fd := int(os.Stdin.Fd())
+	termState, err := term.GetState(fd)
 	if err != nil {
 		return "", err
 	}
-	defer term.Restore(fileDescriptor, termState)
+	defer term.Restore(fd, termState)
 
 	// Set terminal to raw mode to disable echoing of typed characters
-	if _, err := term.MakeRaw(fileDescriptor); err != nil {
+	if _, err := term.MakeRaw(fd); err != nil {
 		return "", err
 	}
 
