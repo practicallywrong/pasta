@@ -34,19 +34,31 @@ func PromptForPassword(promptMessage string, mask rune) (string, error) {
 			return "", fmt.Errorf("error reading input: %w", err)
 		}
 
-		// End input on newline or carriage return
+		// End input on newline or carriage return (Enter key)
 		if char == '\n' || char == '\r' {
 			break
 		}
 
-		// Append the character to the password
+		// Handle Ctrl+C (ASCII 3), terminate the program
+		if char == 3 { // Ctrl+C
+			return "", fmt.Errorf("operation interrupted by user (Ctrl+C)")
+		}
+
+		// Handle backspace (remove last character)
+		if char == '\b' || char == '\x7f' {
+			if len(password) > 0 {
+				password = password[:len(password)-1]
+				fmt.Print("\b \b") // Erase the last mask character printed
+			}
+			continue
+		}
+
 		password += string(char)
 
-		// Optionally mask characters with '*' if the mask flag is set
 		fmt.Print(string(mask))
 	}
 
-	// Clear the line after input
+	// Clear the line after input and reset the cursor position
 	fmt.Println()
 	fmt.Print("\033[2K\033[0G\r")
 
