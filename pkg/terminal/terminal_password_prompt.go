@@ -31,6 +31,7 @@ func PromptForPassword(promptMessage string, mask rune) (string, error) {
 	for {
 		char, _, err := reader.ReadRune()
 		if err != nil {
+			fmt.Println()
 			return "", fmt.Errorf("error reading input: %w", err)
 		}
 
@@ -41,6 +42,7 @@ func PromptForPassword(promptMessage string, mask rune) (string, error) {
 
 		// Handle Ctrl+C (ASCII 3), terminate the program
 		if char == 3 { // Ctrl+C
+			fmt.Println()
 			return "", fmt.Errorf("operation interrupted by user (Ctrl+C)")
 		}
 
