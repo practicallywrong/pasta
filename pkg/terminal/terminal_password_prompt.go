@@ -43,7 +43,7 @@ func PromptForPassword(promptMessage string, mask rune) (string, error) {
 		password += string(char)
 
 		// Optionally mask characters with '*' if the mask flag is set
-		fmt.Print(mask)
+		fmt.Print(string(mask))
 	}
 
 	// Clear the line after input
